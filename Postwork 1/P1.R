@@ -18,7 +18,7 @@
 
 #Probabilidad Marginales
 #Obtener el tam de los registros
-n<-length(EquiposEncasa)
+n<-length(EquiposVisita)
 n
 #Probabilidad Marginal de Goles Equipos Visitantes
 sumf<-sumf/n
