@@ -24,6 +24,11 @@ hogoals <- table(goals)
 
 
 #Probabilidad Marginales
+
+#Probabilidad marginal de equipo que juega en casa:
+
+homegoalsprob <- prop.table(x=homegoals)
+
 #Obtener el tam de los registros
 n<-length(EquiposVisita)
 n
