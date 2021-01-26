@@ -45,5 +45,18 @@ outgoalsprob <- prop.table(x=outgoals)
 outgoalsprob
 
 
+fastercasa=(table(bbva1920$FTHG)/dim(bbva1920)[1])*100
+fastercasa
+View(fastercasa)
+##CALCULANDO LA PROBABILIDAD DE QUE EL EQUIPO EXTERNO ANOTE X GOLES
+fasterexterno=(table(bbva1920$FTAG)/dim(bbva1920)[1])*100
+fasterexterno
+View(fasterexterno)
+#PROBABILIDADES CONJUNTAS
+probconj=(table(bbva1920$FTHG, bbva1920$FTAG)/dim(bbva1920)[1])*100
+probconj
+View(probconj)
+
+
 
 
