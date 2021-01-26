@@ -43,6 +43,11 @@ sum(sumf) #La suma de todas las probabilidades de goles Visitantes debe ser 1, c
 outgoalsprob <- prop.table(x=outgoals)
 
 outgoalsprob
+#O de la siguiente manera
+
+sumf <-apply(hogoals,2,sum)#Filas 
+sumf
+sumf/n
 
 
 fastercasa=(table(bbva1920$FTHG)/dim(bbva1920)[1])*100
