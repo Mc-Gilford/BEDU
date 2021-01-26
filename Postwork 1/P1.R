@@ -45,7 +45,7 @@ outgoalsprob <- prop.table(x=outgoals)
 outgoalsprob
 #O de la siguiente manera
 
-sumf <-apply(hogoals,2,sum)#Filas 
+sumf <-apply(hogoals,2,sum)#Columnas
 sumf
 sumf/n
 
