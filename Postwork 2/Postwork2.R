@@ -57,7 +57,7 @@ summary(datos1920)
 # VERIFICAMOS EL TIPO DE DATOS QUE HAY EN CADA DATASET USANDO STR, HEAD, VIEW, SUMMARY
 #str(dataset1)
 
-#Aplicaremos el select para seleccionar las columnas que deseamos tener RJ
+#Aplicaremos el select para seleccionar las columnas que deseamos tener RJs
 #Podemos realizar el siguiente comando para leer todos los archivos
 lista <- lapply(dir(), read.csv)
 #Usaremos el siguiente comando para juntar los datos, en una lista y realizar el select
