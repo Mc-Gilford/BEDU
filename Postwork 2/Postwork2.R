@@ -5,8 +5,8 @@
 #Con la función select del paquete dplyr selecciona únicamente las columnas Date, HomeTeam, AwayTeam, FTHG, FTAG y FTR; esto para cada uno de los data frames. (Hint: también puedes usar lapply).
 
 #Asegúrate de que los elementos de las columnas correspondientes de los nuevos data frames sean del mismo tipo (Hint 1: usa as.Date y mutate para arreglar las fechas). Con ayuda de la función rbind forma un único data frame que contenga las seis columnas mencionadas en el punto 3 (Hint 2: la función do.call podría ser utilizada).
-
-
+getwd()
+setwd("BEDU/DataScience/Postworks/Poswork 1/BEDU/Postwork 2/")
 
 #POST-WORK SESION 2
 #CARGAMOS LIBRERIA DPLYR
@@ -59,7 +59,9 @@ summary(datos1920)
 
 #Aplicaremos el select para seleccionar las columnas que deseamos tener RJs
 #Podemos realizar el siguiente comando para leer todos los archivos
-lista <- lapply(dir(), read.csv)
+#dir()
+#lista <- lapply(dir(), read.csv) 
+lista
 #Usaremos el siguiente comando para juntar los datos, en una lista y realizar el select
 lista<-list(datos1718,datos1819,datos1920)
 lista
@@ -77,3 +79,4 @@ str(bbva1720)
 #Actualizamos los tipos de datos (date)
 bbva1720 <- mutate(bbva1720, Date = as.Date(Date, "%d-%m-%Y"))
 str(bbva1720)
+
