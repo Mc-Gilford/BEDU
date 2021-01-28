@@ -12,9 +12,9 @@
 #CARGAMOS LIBRERIA DPLYR
 suppressWarnings(suppressMessages(library(dplyr)))
 #IMPORTANDO LOS DATOS
-U1 <- "https://www.football-data.co.uk/mmz4281/1718/SP1.csv"
+#U1 <- "https://www.football-data.co.uk/mmz4281/1718/SP1.csv"
 #IMPORTANDO LOS DATASETS
-dataset1 <- read.csv(file = U1)
+#dataset1 <- read.csv(file = U1)
 
 #1 Importar los archivos
 
@@ -55,9 +55,14 @@ View(datos1920)
 summary(datos1920)
 
 # VERIFICAMOS EL TIPO DE DATOS QUE HAY EN CADA DATASET USANDO STR, HEAD, VIEW, SUMMARY
-str(dataset1)
+#str(dataset1)
 
-#Aplicaremos el select para seleccionar las columnas que deseamos tener
+#Aplicaremos el select para seleccionar las columnas que deseamos tener RJ
+#Podemos realizar el siguiente comando para leer todos los archivos
+lista <- lapply(dir(), read.csv)
+#Usaremos el siguiente comando para juntar los datos, en una lista y realizar el select
+lista<-list(datos1718,datos1819,datos1920)
+lista
 lista <- lapply(lista, select, Date,HomeTeam,AwayTeam,FTHG,FTAG,FTR)
 lista
 
