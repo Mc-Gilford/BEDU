@@ -15,6 +15,45 @@ suppressWarnings(suppressMessages(library(dplyr)))
 U1 <- "https://www.football-data.co.uk/mmz4281/1718/SP1.csv"
 #IMPORTANDO LOS DATASETS
 dataset1 <- read.csv(file = U1)
+
+#1 Importar los archivos
+
+datos1718 <- read.csv("1718.csv")
+datos1819 <- read.csv("1819.csv")
+datos1920 <- read.csv("1920.csv")
+
+# 2: Obten una mejor idea de las características de los DF
+
+#Datos 2017-2018
+
+str(datos1718)
+
+head(datos1718)
+
+View(datos1718)
+
+summary(datos1718)
+
+#Datos 2018-2019
+
+str(datos1819)
+
+head(datos1819)
+
+View(datos1819)
+
+summary(datos1819)
+
+#Datos 2019-2020
+
+str(datos1920)
+
+head(datos1920)
+
+View(datos1920)
+
+summary(datos1920)
+
 # VERIFICAMOS EL TIPO DE DATOS QUE HAY EN CADA DATASET USANDO STR, HEAD, VIEW, SUMMARY
 str(dataset1)
 
