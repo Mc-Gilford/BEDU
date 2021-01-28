@@ -63,3 +63,11 @@ lista
 
 str(lista)
 
+#Actualizamos los tipos de datos (date)
+bbva1920.data2 <- mutate(bbva1920.data, Date = as.Date(Date, "%d-%m-%Y"))
+bbva1819.data2 <- mutate(bbva1819.data, Date = as.Date(Date, "%d-%m-%Y"))
+bbva1718.data2 <- mutate(bbva1718.data, Date = as.Date(Date, "%d-%m-%Y"))
+
+#Unimos las tres dataframes 
+
+bbva1720 <- rbind(bbva1718.data2,bbva1819.data2,bbva1920.data2)
