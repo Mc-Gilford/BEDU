@@ -9,11 +9,14 @@ library(dplyr)
 library(ggplot2)
 
 datos<-read.csv("Consolidado para R-ENOE-Indicadores estratégicos-enero2005-diciembre2020.csv")
+head(datos)
 class(datos)
 summary(datos)
 dim(datos)
 
-datos<-group_by(datos, datos$Año)
+datos %>%  group_by(Año) %>% 
+  +   summarise(mean = mean(amount), sum = sum(amount), n = n())
+datos
 View(datos)
 names(datos)
 str(datos)
