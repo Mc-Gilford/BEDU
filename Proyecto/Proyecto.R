@@ -14,8 +14,12 @@ class(datos)
 summary(datos)
 dim(datos)
 
-datos %>%  group_by(Año) %>% summarise(mean = mean(Población.total), sum = sum(Población.de.15.años.y.más), n = n())
+PromedioAnual<-datos %>%  group_by(Año) %>% summarise(PromedioTotal = mean(Población.total), Promedio15oMAS = mean(Población.de.15.años.y.más), n = n())
+PromedioAnual<-as.data.frame(PromedioAnual)
+class(PromedioAnual)
+PromedioAnual
 datos
+
 View(datos)
 names(datos)
 str(datos)
