@@ -14,17 +14,7 @@ summary(datos)
 dim(datos)
 
 datos<-group_by(datos, datos$Año)
-datos
-dim(datos)
 View(datos)
 names(datos)
 str(datos)
 
-datos <- mutate(datos, Año=as.numeric(Año))
-
-datos <- mutate(datos, as.numeric())
-str(datos)
-datos<-as.data.frame(gsub(" ","",datos))
-View(datos)
-#columnas, filas
-datos[1,]
