@@ -5,3 +5,7 @@ getwd()
 
 #install.packages("dplyr")
 library(dplyr)
+
+datos<-read.csv("Consolidado para R-ENOE-Indicadores estratégicos-enero2005-diciembre2020.csv")
+class(datos)
+summary(datos)
