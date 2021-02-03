@@ -124,5 +124,5 @@ newdata <- data[indices, ]
 #Repita el remuestreo anterior varias veces (unas 1000 veces)
 # y obtenga una idea de las distribuciones de los coci. 
 #Finalmente mencione en cuales casos le parece razonable la suposición de que 
-#el cociente es igual a 1.
+#el cociente es igual a 1
 

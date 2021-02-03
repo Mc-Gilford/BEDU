@@ -38,7 +38,7 @@ d1819 <- read.csv(file = url1819)
 d1920 <- read.csv(file = url1920)
 
 #Obtenemos una mejor idea de los datos que se encuentran 
-# en los data frames con las funciones str, head, View y summary
+# en los data frames con las funciones str, head, View ,Summary
 
 str(d1718); str(d1819); str(d1920)
 head(d1718); head(d1819); head(d1920)

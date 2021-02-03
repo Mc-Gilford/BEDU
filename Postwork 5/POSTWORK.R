@@ -56,3 +56,4 @@ ranking <- rank.teams(scores = anotaciones, teams = equipos,
 
 pred <- predict(ranking, date = fecha[n])
 
+#
