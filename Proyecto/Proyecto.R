@@ -20,12 +20,33 @@ head(datos)
 class(datos)
 summary(datos)
 dim(datos)
-
+#Obtenemos la poblacion total de personas en el pais, y la poblacion que tiene 15 a;os o mas
 PromedioAnual<-datos %>%  group_by(Año) %>% summarise(PromedioTotal = mean(Población.total), Promedio15oMAS = mean(Población.de.15.años.y.más), n = n())
 PromedioAnual<-as.data.frame(PromedioAnual)
 class(PromedioAnual)
 PromedioAnual
 datos
+
+#Graficamos la poblacion junto con su creciemnto
+ggplot(PromedioAnual, aes(x=PromedioTotal, y=Promedio15oMAS)) + geom_line(color="blue") + 
+   labs(x = "Poblacion General", 
+        y = "Poblacion Mayor a 15 años",
+        title = paste("Poblacion Adolescente-Adulta", format(Sys.time(), tz="America/Mexico_City",usetz=TRUE))) +
+   geom_line(color = "#ed6381") + theme(plot.title = element_text(size=12)) +
+   theme(axis.text.x = element_text(face = "bold", color="#3424bc" , size = 10, angle = 45, hjust = 1),
+         axis.text.y = element_text(face = "bold", color="#993333" , size = 10, angle = 45, hjust = 1))  # color, Ángulo y estilo de las abcisas y ordenadas
+
+#Crecimiento de la poblacion general y de 15 o mas separada
+ggplot(PromedioAnual, aes(x=PromedioTotal, y=Promedio15oMAS)) + geom_line(color="blue") + 
+   labs(x = "Poblacion General", 
+        y = "Poblacion Mayor a 15 años",
+        title = paste("Poblacion Adolescente-Adulta", format(Sys.time(), tz="America/Mexico_City",usetz=TRUE))) +
+   geom_line(aes(y = PromedioTotal), color = "red") + theme(plot.title = element_text(size=12)) +
+   theme(axis.text.x = element_text(face = "bold", color="#3424bc" , size = 10, angle = 45, hjust = 1),
+         axis.text.y = element_text(face = "bold", color="#993333" , size = 10, angle = 45, hjust = 1))  # color, Ángulo y estilo de las abcisas y ordenadas
+
+
+
 
 View(datos)
 names(datos)
