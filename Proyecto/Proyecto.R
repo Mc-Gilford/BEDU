@@ -35,15 +35,36 @@ ggplot(PromedioAnual, aes(x=PromedioTotal, y=Promedio15oMAS)) + geom_line(color=
    geom_line(color = "#ed6381") + theme(plot.title = element_text(size=12)) +
    theme(axis.text.x = element_text(face = "bold", color="#3424bc" , size = 10, angle = 45, hjust = 1),
          axis.text.y = element_text(face = "bold", color="#993333" , size = 10, angle = 45, hjust = 1))  # color, Ángulo y estilo de las abcisas y ordenadas
+ # color, Ángulo y estilo de las abcisas y ordenadas
 
-#Crecimiento de la poblacion general y de 15 o mas separada
-ggplot(PromedioAnual, aes(x=PromedioTotal, y=Promedio15oMAS)) + geom_line(color="blue") + 
-   labs(x = "Poblacion General", 
-        y = "Poblacion Mayor a 15 años",
-        title = paste("Poblacion Adolescente-Adulta", format(Sys.time(), tz="America/Mexico_City",usetz=TRUE))) +
-   geom_line(aes(y = PromedioTotal), color = "red") + theme(plot.title = element_text(size=12)) +
-   theme(axis.text.x = element_text(face = "bold", color="#3424bc" , size = 10, angle = 45, hjust = 1),
-         axis.text.y = element_text(face = "bold", color="#993333" , size = 10, angle = 45, hjust = 1))  # color, Ángulo y estilo de las abcisas y ordenadas
+
+
+#Hacemos el analisis de la Poblacion Economica Activa y de la no activa mediante los siguientes graficos
+PEAPNEA <- select(datos,  	Población.económicamente.activa..PEA.:PNEA.No.disponible)
+PEAPNEA
+
+#Hacemos la agrupacion por anio para que la graficas, sean un poco mas limpias para ver si existen patrones
+
+PoblacionesEconomicas<-datos %>%  group_by(Año) %>% summarise(PEAactiva = mean(Población.económicamente.activa..PEA.), 
+                                                              PNEAactiva = mean(Población.no.económicamente.activa..PNEA.), n = n())
+PoblacionesEconomicas<-as.data.frame(PromedioAnual)
+
+
+ggplot(PEAPNEA, aes(x=Población.económicamente.activa..PEA., y=Población.no.económicamente.activa..PNEA.)) + geom_line(color="blue") + 
+   labs(x = "Poblacion economica activa (PEA)", 
+        y = "Poblacion economica no activa(PNEA)",
+        title = paste("Poblacion economica", format(Sys.time(), tz="America/Mexico_City",usetz=TRUE))) +
+   geom_line(color = "#ed6381") + theme(plot.title = element_text(size=12)) +
+   theme(axis.text.x = element_text(face = "bold", color="#ab24bc" , size = 10, angle = 45, hjust = 1),
+         axis.text.y = element_text(face = "bold", color="#993333" , size = 10, angle = 45, hjust = 1))  
+#Veremos la poblacion economica ativa ocupada y la poblocion economica no ocupada
+ggplot(PEAPNEA, aes(x=PEA.Ocupada, y=PNEA.No.disponible)) + geom_line(color="blue") + 
+   labs(x = "PEA Ocupada", 
+        y = "PNEA Ocupada",
+        title = paste("Poblacion economica estado", format(Sys.time(), tz="America/Mexico_City",usetz=TRUE))) +
+   geom_line(color = "#aa24bc") + theme(plot.title = element_text(size=12)) +
+   theme(axis.text.x = element_text(face = "bold", color="#aa24bc" , size = 10, angle = 45, hjust = 1),
+         axis.text.y = element_text(face = "bold", color="#fd3c33" , size = 10, angle = 45, hjust = 1))  
 
 
 
