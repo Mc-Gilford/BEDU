@@ -45,10 +45,15 @@ PEAPNEA
 
 #Hacemos la agrupacion por anio para que la graficas, sean un poco mas limpias para ver si existen patrones
 
+PoblacionesEconomicas<-NULL
 PoblacionesEconomicas<-datos %>%  group_by(Año) %>% summarise(PEAactiva = mean(Población.económicamente.activa..PEA.), 
-                                                              PNEAactiva = mean(Población.no.económicamente.activa..PNEA.), n = n())
-PoblacionesEconomicas<-as.data.frame(PromedioAnual)
+                                                              PNEAactiva = mean(Población.no.económicamente.activa..PNEA.),
+                                                              PEAOcupada = mean(PEA.Ocupada),PNEA = mean(PNEA.No.disponible),
+                                                              PEAdesocupada = mean(PEA.Desocupada), PNEAdesocupada=mean(PNEA.Disponible),
+                                                              n = n())
+PoblacionesEconomicas<-as.data.frame(PoblacionesEconomicas)
 
+PoblacionesEconomicas
 
 ggplot(PEAPNEA, aes(x=Población.económicamente.activa..PEA., y=Población.no.económicamente.activa..PNEA.)) + geom_line(color="blue") + 
    labs(x = "Poblacion economica activa (PEA)", 
@@ -56,7 +61,32 @@ ggplot(PEAPNEA, aes(x=Población.económicamente.activa..PEA., y=Población.no.e
         title = paste("Poblacion economica", format(Sys.time(), tz="America/Mexico_City",usetz=TRUE))) +
    geom_line(color = "#ed6381") + theme(plot.title = element_text(size=12)) +
    theme(axis.text.x = element_text(face = "bold", color="#ab24bc" , size = 10, angle = 45, hjust = 1),
-         axis.text.y = element_text(face = "bold", color="#993333" , size = 10, angle = 45, hjust = 1))  
+         axis.text.y = element_text(face = "bold", color="#993333" , size = 10, angle = 45, hjust = 1))
+#grafica realizada por a;o
+   ggplot(PoblacionesEconomicas, aes(x=PEAactiva, y=PNEAactiva)) + geom_line(color="#acd322") + 
+   labs(x = "Poblacion economica activa (PEA)", 
+        y = "Poblacion economica no activa(PNEA)",
+        title = paste("Poblacion economica", format(Sys.time(), tz="America/Mexico_City",usetz=TRUE))) +
+   geom_line(color = "#ed6381") + theme(plot.title = element_text(size=12)) +
+   theme(axis.text.x = element_text(face = "bold", color="#ab24bc" , size = 10, angle = 45, hjust = 1),
+         axis.text.y = element_text(face = "bold", color="#221b33" , size = 10, angle = 45, hjust = 1))  
+   #cada a;o de poblacion economica activa
+   ggplot(PoblacionesEconomicas, aes(x=Año, y=PEAactiva)) + geom_line(color="#acd322") + 
+      labs(x = "Año", 
+           y = "Poblacion Economica Activa",
+           title = paste("Poblacion economica Activa Ocupados anualmente", format(Sys.time(), tz="America/Mexico_City",usetz=TRUE))) +
+      geom_line(color = "#ed6381") + theme(plot.title = element_text(size=12)) +
+      theme(axis.text.x = element_text(face = "bold", color="#ab24bc" , size = 12, angle = 45, hjust = 1),
+            axis.text.y = element_text(face = "bold", color="#221b33" , size = 12, angle = 45, hjust = 1))  
+   #cada a;o de poblacion economica activa
+   ggplot(PoblacionesEconomicas, aes(x=Año, y=PNEAactiva)) + geom_line(color="#acd322") + 
+      labs(x = "Año", 
+           y = "Poblacion Economica No Activa",
+           title = paste("Poblacion economica no activa Ocupados actualmente", format(Sys.time(), tz="America/Mexico_City",usetz=TRUE))) +
+      geom_line(color = "#ed6381") + theme(plot.title = element_text(size=12)) +
+      theme(axis.text.x = element_text(face = "bold", color="#ab24bc" , size = 12, angle = 45, hjust = 1),
+            axis.text.y = element_text(face = "bold", color="#221b33" , size = 12, angle = 45, hjust = 1))  
+   
 #Veremos la poblacion economica ativa ocupada y la poblocion economica no ocupada
 ggplot(PEAPNEA, aes(x=PEA.Ocupada, y=PNEA.No.disponible)) + geom_line(color="blue") + 
    labs(x = "PEA Ocupada", 
@@ -65,7 +95,33 @@ ggplot(PEAPNEA, aes(x=PEA.Ocupada, y=PNEA.No.disponible)) + geom_line(color="blu
    geom_line(color = "#aa24bc") + theme(plot.title = element_text(size=12)) +
    theme(axis.text.x = element_text(face = "bold", color="#aa24bc" , size = 10, angle = 45, hjust = 1),
          axis.text.y = element_text(face = "bold", color="#fd3c33" , size = 10, angle = 45, hjust = 1))  
+#Grafica realizada por a;o
+ggplot(PoblacionesEconomicas, aes(x=PEAdesocupada, y=PNEAdesocupada)) + geom_line(color="#aff722") + 
+   labs(x = "Poblacion economica activa (PEA)", 
+        y = "Poblacion economica no activa(PNEA)",
+        title = paste("Poblacion economica Desocupada", format(Sys.time(), tz="America/Mexico_City",usetz=TRUE))) +
+   geom_line(color = "#ed6381") + theme(plot.title = element_text(size=12)) +
+   theme(axis.text.x = element_text(face = "bold", color="#db24bc" , size = 10, angle = 45, hjust = 1),
+         axis.text.y = element_text(face = "bold", color="#e11b23" , size = 10, angle = 45, hjust = 1))  
 
+ggplot(PoblacionesEconomicas, aes(x=Año, y=PEAdesocupada)) + geom_line(color="#acd322") + 
+   labs(x = "Año", 
+        y = "Poblacion Economica Activa",
+        title = paste("Poblacion economica Activa desocupados anualmente", format(Sys.time(), tz="America/Mexico_City",usetz=TRUE))) +
+   geom_line(color = "#ed6381") + theme(plot.title = element_text(size=12)) +
+   theme(axis.text.x = element_text(face = "bold", color="#ab24bc" , size = 12, angle = 45, hjust = 1),
+         axis.text.y = element_text(face = "bold", color="#221b33" , size = 12, angle = 45, hjust = 1))  
+#cada a;o de poblacion economica activa
+ggplot(PoblacionesEconomicas, aes(x=Año, y=PNEAdesocupada)) + geom_line(color="#acd322") + 
+   labs(x = "Año", 
+        y = "Poblacion Economica No Activa desocupados",
+        title = paste("Poblacion economica no activa actualmente", format(Sys.time(), tz="America/Mexico_City",usetz=TRUE))) +
+   geom_line(color = "#ed6381") + theme(plot.title = element_text(size=12)) +
+   theme(axis.text.x = element_text(face = "bold", color="#ab24bc" , size = 12, angle = 45, hjust = 1),
+         axis.text.y = element_text(face = "bold", color="#221b33" , size = 12, angle = 45, hjust = 1))  
+
+
+###Aqui seguir añadiendo
 
 
 
