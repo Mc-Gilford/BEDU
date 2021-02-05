@@ -28,6 +28,9 @@ PromedioAnual
 datos
 
 #Graficamos la poblacion junto con su creciemnto
+
+#Realizamos el analisis para determinar el crecimineto de la poblacion general, con la poblacion que ya genera un ingreso
+#Medainate el analisi la edad para que una persona genere recursos, es apartir de los 15 a;os
 ggplot(PromedioAnual, aes(x=PromedioTotal, y=Promedio15oMAS)) + geom_line(color="blue") + 
    labs(x = "Poblacion General", 
         y = "Poblacion Mayor a 15 años",
@@ -122,7 +125,90 @@ ggplot(PoblacionesEconomicas, aes(x=Año, y=PNEAdesocupada)) + geom_line(color="
 
 
 ###Aqui seguir añadiendo
+#Obtener los sectores economicos
+#Vemos como cada sector de la economia ha sido afectado
 
+Sectores <- select(datos,Año,Primario,Secundario,Terciario)
+Sectores
+
+class(Sectores)
+
+#Calculamos el promedio para obtener el crecimiento anualmente, juntando lo por los años
+Sectores<-Sectores %>%  group_by(Año) %>% summarise(Primario = mean(Primario), 
+                                                              Secundario = mean(Secundario),
+                                                              Terciario = mean(Terciario),
+                                                              n = n())
+Sectores<-as.data.frame(Sectores)
+
+Sectores
+
+ggplot(Sectores) + 
+   geom_point(aes(Primario, Secundario, colour = factor(Terciario)))
+
+#ggplot(Sectores) + geom_boxplot(aes(x=factor(Año), y=Primario))
+
+#Graficamos el avance del sector primario en los ultimos años como ha ido creciendo, vemos que en el ultimo año el sector
+#Primario esta descendiendo drasticamente a casi 6500000
+ggplot(Sectores, aes(x=Año, y=Primario)) + geom_line(color="#5cfd22") + 
+   labs(x = "Año", 
+        y = "Empleos Primario",
+        title = paste("Empleo en el sector Primario", format(Sys.time(), tz="America/Mexico_City",usetz=TRUE))) +
+   geom_line(color = "#35df81") + theme(plot.title = element_text(size=12)) +
+   theme(axis.text.x = element_text(face = "bold", color="#ab24bc" , size = 12, angle = 45, hjust = 1),
+         axis.text.y = element_text(face = "bold", color="#221b33" , size = 12, angle = 45, hjust = 1))  
+#Realizamos la siguiente grafica en el sector secundario para saber cuanto ha perjudicado la pandemia a este sector
+ggplot(Sectores, aes(x=Año, y=Secundario)) + geom_line(color="#dffd22") + 
+   labs(x = "Año", 
+        y = "Empleos Secundario",
+        title = paste("Empleo en el sector Secundario", format(Sys.time(), tz="America/Mexico_City",usetz=TRUE))) +
+   geom_line(color = "#dd3481") + theme(plot.title = element_text(size=12)) +
+   theme(axis.text.x = element_text(face = "bold", color="#ab24bc" , size = 12, angle = 45, hjust = 1),
+         axis.text.y = element_text(face = "bold", color="#221b33" , size = 12, angle = 45, hjust = 1))  
+#Ahora veremos el impacto en el sector terciario
+ggplot(Sectores, aes(x=Año, y=Terciario)) + geom_line(color="#dfff22") + 
+   labs(x = "Año", 
+        y = "Empleos en el Sector Terciario",
+        title = paste("Empleo en el sector Terciario", format(Sys.time(), tz="America/Mexico_City",usetz=TRUE))) +
+   geom_line(color = "#3fff21") + theme(plot.title = element_text(size=12)) +
+   theme(axis.text.x = element_text(face = "bold", color="#ab24bc" , size = 12, angle = 45, hjust = 1),
+         axis.text.y = element_text(face = "bold", color="#221b33" , size = 12, angle = 45, hjust = 1))  
+
+#Caluclaremos el crecimiento de cada uno de nuestros Sectores, asi veremos como es afectado cada sector
+Sectores <- mutate(Sectores, PrimarioAn = lag(Primario), SecundarioAn = lag(Secundario), TerciarioAn=lag(Terciario))
+Sectores
+Sectores <- mutate(Sectores, CrePrimario = Primario/PrimarioAn, CrecSecundario = Secundario/SecundarioAn, CrecTerciario= Terciario/TerciarioAn)
+Sectores
+#Usaremos estas variables nuevas para ver mas graficamente, el crecimiento de cada Sector
+#Aplicaremos la diferencia a cada una las nuevas columnas, para ver mas a detalle el valor de su crecimiento
+Sectores <- mutate(Sectores, CrePrimarioDif = c(1, diff(CrePrimario))) # Crecimiento anual del sector Primario
+Sectores <- mutate(Sectores, CreSecundarioDif = c(1, diff(CrecSecundario))) # Crecimiento anual del sector PSecundario
+Sectores <- mutate(Sectores, CreTerciarioDif = c(1, diff(CrecTerciario))) # Crecimiento anual del sector Terciario
+
+Sectores
+View(Sectores)
+
+#Observamos el crecimiento de los sectores, como se mantuvo un crecimiento neutral en el 2015,hasta antes del 2020
+#Parece que entre los a;os 2020 y 2021 puede existir un pico negativo para este sector primario
+ggplot(Sectores, aes(x=Año, y=CrePrimarioDif)) + geom_line(color="#dfff22") + 
+   labs(x = "Año", 
+        y = "Crecimiento en el sector Primario",
+        title = paste("Crecimiento en el sector Primario", format(Sys.time(), tz="America/Mexico_City",usetz=TRUE))) +
+   geom_line(color = "#3fff21") + theme(plot.title = element_text(size=12)) +
+   theme(axis.text.x = element_text(face = "bold", color="#ab24bc" , size = 12, angle = 45, hjust = 1),
+         axis.text.y = element_text(face = "bold", color="#221b33" , size = 12, angle = 45, hjust = 1)) 
+#El sector secundario se ve que es el mas afectado en este a;o, dado que tuvo subidas y bajadas pero nunca un pico notable
+#Solo este 2020 se ve un descensodrastico
+ggplot(Sectores, aes(x=Año, y=CreSecundarioDif)) + geom_line(color="#dfff22") + 
+   labs(x = "Año", 
+        y = "Crecimiento en el sector Secundario",
+        title = paste("Crecimiento en el sector Secundario", format(Sys.time(), tz="America/Mexico_City",usetz=TRUE))) +
+   geom_line(color = "#3fff21") + theme(plot.title = element_text(size=12)) +
+   theme(axis.text.x = element_text(face = "bold", color="#ab24bc" , size = 12, angle = 45, hjust = 1),
+         axis.text.y = element_text(face = "bold", color="#221b33" , size = 12, angle = 45, hjust = 1)) 
+
+
+
+##3.3 Nivel de ingresos	Hasta un salario mínimo	Más de 1 hasta 2 salarios mínimos	Más de 2 hasta 3 salarios mínimos	Más de 3 hasta 5 salarios mínimos	Más de 5 salarios mínimos	No recibe ingresos	No especificado
 
 
 View(datos)
