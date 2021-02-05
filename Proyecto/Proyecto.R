@@ -205,11 +205,114 @@ ggplot(Sectores, aes(x=Año, y=CreSecundarioDif)) + geom_line(color="#dfff22") +
    geom_line(color = "#3fff21") + theme(plot.title = element_text(size=12)) +
    theme(axis.text.x = element_text(face = "bold", color="#ab24bc" , size = 12, angle = 45, hjust = 1),
          axis.text.y = element_text(face = "bold", color="#221b33" , size = 12, angle = 45, hjust = 1)) 
-
+#Otor de los sectores mas afectados es el terciario dado que se ve que en kis a;os antes del 2020 descendio, pero junto
+#con la pandemia descendio mas
+ggplot(Sectores, aes(x=Año, y=CreTerciarioDif)) + geom_line(color="#deee22") + 
+   labs(x = "Año", 
+        y = "Crecimiento en el sector Terciario",
+        title = paste("Crecimiento en el sector Terciario", format(Sys.time(), tz="America/Mexico_City",usetz=TRUE))) +
+   geom_line(color = "#5ddd21") + theme(plot.title = element_text(size=12)) +
+   theme(axis.text.x = element_text(face = "bold", color="#ab24bc" , size = 12, angle = 45, hjust = 1),
+         axis.text.y = element_text(face = "bold", color="#221b33" , size = 12, angle = 45, hjust = 1)) 
 
 
 ##3.3 Nivel de ingresos	Hasta un salario mínimo	Más de 1 hasta 2 salarios mínimos	Más de 2 hasta 3 salarios mínimos	Más de 3 hasta 5 salarios mínimos	Más de 5 salarios mínimos	No recibe ingresos	No especificado
 
+names(datos)
+Salarios <- select(datos,Año,X3.3.Nivel.de.ingresos:No.especificado.2)
+Salarios
+
+class(Salarios)
+names(Salarios)
+#Calculamos el promedio para obtener el salario promedio anualmente
+Salarios<-Salarios %>%  group_by(Año) %>% summarise(NivelIngreso = mean(X3.3.Nivel.de.ingresos), 
+                                                    Unsaliriomin = mean(Hasta.un.salario.mínimo),
+                                                    uno2salariomin = mean(Más.de.1.hasta.2.salarios.mínimos),
+                                                    dos3salariomin = mean(Más.de.2.hasta.3.salarios.mínimos),
+                                                    tres5saliomin = mean(Más.de.3.hasta.5.salarios.mínimos),
+                                                    Norecibeingreso = mean(No.recibe.ingresos),
+                                                    Noescpecificado = mean(No.especificado.2),
+                                                    n = n())
+Salarios
+View(Salarios)
+class(Salarios)
+Salarios<-as.data.frame(Salarios)
+names(Salarios)
+#Haremos la grafica de todos los salarios para observar sus cambios, veremos los niveles de ingreso primero
+#En esto observamos que los a;os anteriores al 2020 eran malos, pero con esta pandemia se ve un gran descenso
+ggplot(Salarios, aes(x=Año, y=NivelIngreso)) + geom_line(color="#723def") + 
+   labs(x = "Año", 
+        y = "Nivel de ingreso",
+        title = paste("Nivel de Ingresos anuales", format(Sys.time(), tz="America/Mexico_City",usetz=TRUE))) +
+   geom_line(color = "#65ff22") + theme(plot.title = element_text(size=12)) +
+   theme(axis.text.x = element_text(face = "bold", color="#ab24bc" , size = 12, angle = 45, hjust = 1),
+         axis.text.y = element_text(face = "bold", color="#221b33" , size = 12, angle = 45, hjust = 1)) 
+
+#Se puede observar que en los ultimos a;os se ha ido incrementado el pago de un solo salario minimo
+ggplot(Salarios, aes(x=Año, y=Unsaliriomin)) + geom_line(color="red") + 
+   labs(x = "Año", 
+        y = "Un salario minimo",
+        title = paste("Un solo salario min anuale ", format(Sys.time(), tz="America/Mexico_City",usetz=TRUE))) +
+   geom_line(color = "#dd1145") + theme(plot.title = element_text(size=12)) +
+   theme(axis.text.x = element_text(face = "bold", color="#ab24bc" , size = 12, angle = 45, hjust = 1),
+         axis.text.y = element_text(face = "bold", color="#221b33" , size = 12, angle = 45, hjust = 1)) 
+
+#Igual que su antecesor incremento
+ggplot(Salarios, aes(x=Año, y=Salarios$uno2salariomin)) + geom_line(color="red") + 
+   labs(x = "Año", 
+        y = "Mas de uno hasta 2 salarios minimos",
+        title = paste("Mas de uno hasta 2 salarios minimos anual ", format(Sys.time(), tz="America/Mexico_City",usetz=TRUE))) +
+   geom_line(color = "#dd1145") + theme(plot.title = element_text(size=12)) +
+   theme(axis.text.x = element_text(face = "bold", color="#ab24bc" , size = 12, angle = 45, hjust = 1),
+         axis.text.y = element_text(face = "bold", color="#221b33" , size = 12, angle = 45, hjust = 1)) 
+
+#En este caso se ve un descenso radical en el a;o 2020 y esto puede ser por el covid2
+ggplot(Salarios, aes(x=Año, y=Salarios$dos3salariomin)) + geom_line(color="red") + 
+   labs(x = "Año", 
+        y = "Mas de 2 hasta 3 salarios minimos",
+        title = paste("Mas de 2 hasta 3 salarios minimos anual ", format(Sys.time(), tz="America/Mexico_City",usetz=TRUE))) +
+   geom_line(color = "#dd1145") + theme(plot.title = element_text(size=12)) +
+   theme(axis.text.x = element_text(face = "bold", color="#ab24bc" , size = 12, angle = 45, hjust = 1),
+         axis.text.y = element_text(face = "bold", color="#221b33" , size = 12, angle = 45, hjust = 1)) 
+#Igualmente en esta grafica el desceso es muy radical, que la pasada por lo cual uno puede considerar que hubo recorte
+#de sueldo
+ggplot(Salarios, aes(x=Año, y=Salarios$tres5saliomin)) + geom_line(color="red") + 
+   labs(x = "Año", 
+        y = "Mas de 3 hasta 5 salarios minimos",
+        title = paste("Mas de 3 hasta 5 salarios minimos anual ", format(Sys.time(), tz="America/Mexico_City",usetz=TRUE))) +
+   geom_line(color = "#dd1145") + theme(plot.title = element_text(size=12)) +
+   theme(axis.text.x = element_text(face = "bold", color="#ab24bc" , size = 12, angle = 45, hjust = 1),
+         axis.text.y = element_text(face = "bold", color="#221b33" , size = 12, angle = 45, hjust = 1)) 
+
+names(salarios2018)
+
+
+
+
+
+
+
+
+
+
+#Observaremos mas a detalle cada uno de los a;os por lo cual, usaremos el datos y obtendremos los a;os a partir del 2019
+salarios2018 <- datos[datos$Año > 2018, ]
+salarios2018 <-select(salarios2018, Año, Mes, X3.3.Nivel.de.ingresos:No.especificado.2)
+salarios2018 <- na.omit(salarios2018)
+salarios2018
+fecha<-salarios2018[,1:2]
+
+salarios2018 <- mutate(salarios2018, Fecha=salarios2018[,1:2])
+salarios2018
+class(salarios2018)
+#Graficaremos estos a;os para visualizar los meses mas afectados
+ggplot(salarios2018, aes(x=salarios2018$Mes, y=salarios2018$X3.3.Nivel.de.ingresos)) + geom_line(color="#723def") + 
+   labs(x = "Mes", 
+        y = "Nivel de ingreso x mes",
+        title = paste("Nivel de Ingresos menuales del 2019 en adelante", format(Sys.time(), tz="America/Mexico_City",usetz=TRUE))) +
+   geom_line(color = "#65ff22") + theme(plot.title = element_text(size=12)) +
+   theme(axis.text.x = element_text(face = "bold", color="#ab24bc" , size = 12, angle = 45, hjust = 1),
+         axis.text.y = element_text(face = "bold", color="#221b33" , size = 12, angle = 45, hjust = 1)) 
 
 View(datos)
 names(datos)
